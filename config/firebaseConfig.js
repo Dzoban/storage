@@ -5,12 +5,12 @@ import { getStorage } from 'firebase/storage';
 import FirebaseFactory from './firebaseFactory';
 
 const firebaseConfig = {
-	apiKey: process.env.REACT_APP_API_KEY,
-	authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-	projectId: process.env.REACT_APP_PROJECT_ID,
-	storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-	messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
-	appId: process.env.REACT_APP_APP_ID,
+	apiKey: 'AIzaSyCnD7dRL7ajaJ9G2cSNfCEL4VUjCwmjRP8',
+	authDomain: 'storage-3e20f.firebaseapp.com',
+	projectId: 'storage-3e20f',
+	storageBucket: 'storage-3e20f.appspot.com',
+	messagingSenderId: '234434422442',
+	appId: '1:234434422442:web:20918a3a866d4dbafa12d3',
 };
 
 export const firebaseApp = initializeApp(firebaseConfig);
@@ -20,8 +20,6 @@ export const firebaseStorage = getStorage(firebaseApp);
 
 export const firebaseCollections = {
 	users: 'users',
-	subjects: 'subjects',
 };
 
 export const users = new FirebaseFactory(firebaseFirestore, firebaseCollections.users);
-export const subjects = new FirebaseFactory(firebaseFirestore, firebaseCollections.subjects);

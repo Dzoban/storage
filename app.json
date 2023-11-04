@@ -1,30 +1,39 @@
 {
-  "expo": {
-    "name": "storage",
-    "slug": "storage",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    }
-  }
+	"expo": {
+		"name": "storage",
+		"slug": "storage",
+		"version": "1.0.0",
+		"orientation": "portrait",
+		"extra": {
+			"firebase": {
+				"apiKey": "AIzaSyCnD7dRL7ajaJ9G2cSNfCEL4VUjCwmjRP8",
+				"authDomain": "storage-3e20f.firebaseapp.com",
+				"projectId": "storage-3e20f",
+				"storageBucket": "storage-3e20f.appspot.com",
+				"messagingSenderId": "234434422442",
+				"appId": "1:234434422442:web:20918a3a866d4dbafa12d3"
+			}
+		},
+		"icon": "./assets/icon.png",
+		"userInterfaceStyle": "light",
+		"splash": {
+			"image": "./assets/splash.png",
+			"resizeMode": "contain",
+			"backgroundColor": "#ffffff"
+		},
+		"assetBundlePatterns": ["**/*"],
+		"ios": {
+			"supportsTablet": true,
+			"bundleIdentifier": "com.myStorageApp.ios"
+		},
+		"android": {
+			"adaptiveIcon": {
+				"foregroundImage": "./assets/adaptive-icon.png",
+				"backgroundColor": "#ffffff"
+			}
+		},
+		"web": {
+			"favicon": "./assets/favicon.png"
+		}
+	}
 }
