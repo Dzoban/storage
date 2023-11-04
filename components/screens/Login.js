@@ -1,5 +1,15 @@
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, Button, SafeAreaView, StyleSheet, Text, TextInput } from 'react-native';
+import {
+	ActivityIndicator,
+	Button,
+	Keyboard,
+	SafeAreaView,
+	StyleSheet,
+	Text,
+	TextInput,
+	TouchableWithoutFeedback,
+} from 'react-native';
+import Toast from 'react-native-toast-message';
 import { users } from '../../config/firebaseConfig';
 
 const Login = ({ navigation, route }) => {
@@ -11,18 +21,24 @@ const Login = ({ navigation, route }) => {
 	const [nameReg, setNameReg] = useState('');
 	const [emailReg, setEmailReg] = useState('');
 	const [passwordReg, setPasswordReg] = useState('');
-	const { handleLogin } = route.params;
+	const { handleLogin, setUserId } = route.params;
 
 	const handleLoginPress = async () => {
 		setIsLoading(true);
 		const user = usersData.find((item) => item.email === email && item.password === password);
-
+		console.log(user);
 		if (user) {
 			setIsLoading(false);
 			handleLogin();
+			setUserId(user.id);
 			console.log('login');
 		} else {
 			setIsAuth(false);
+			Toast.show({
+				type: 'info',
+				text1: 'Info',
+				text2: 'Please register!',
+			});
 		}
 	};
 
@@ -43,6 +59,11 @@ const Login = ({ navigation, route }) => {
 					setEmailReg('');
 					setPasswordReg('');
 					setIsLoading(false);
+					Toast.show({
+						type: 'success',
+						text1: 'Success',
+						text2: 'Successfully registered!',
+					});
 				})
 				.catch((err) => console.log(err));
 		} catch (error) {
@@ -77,13 +98,21 @@ const Login = ({ navigation, route }) => {
 		);
 	}
 	return (
-		<>
+		<TouchableWithoutFeedback
+			onPress={() => {
+				Keyboard.dismiss();
+			}}>
 			{isAuth ? (
 				<SafeAreaView style={styles.container}>
 					<Text>Enter email:</Text>
 					<TextInput style={styles.input} placeholder="example@email.com" onChangeText={(val) => setEmail(val)} />
 					<Text>Enter password:</Text>
-					<TextInput style={styles.input} placeholder="******" onChangeText={(val) => setPassword(val)} />
+					<TextInput
+						style={styles.input}
+						placeholder="******"
+						onChangeText={(val) => setPassword(val)}
+						secureTextEntry={true}
+					/>
 					<Button title="Login" onPress={handleLoginPress} />
 				</SafeAreaView>
 			) : (
@@ -94,11 +123,16 @@ const Login = ({ navigation, route }) => {
 					<Text>Enter email:</Text>
 					<TextInput style={styles.input} placeholder="example@email.com" onChangeText={(val) => setEmailReg(val)} />
 					<Text>Enter password:</Text>
-					<TextInput style={styles.input} placeholder="******" onChangeText={(val) => setPasswordReg(val)} />
+					<TextInput
+						style={styles.input}
+						placeholder="******"
+						onChangeText={(val) => setPasswordReg(val)}
+						secureTextEntry={true}
+					/>
 					<Button title="Register" onPress={() => handleRegisterPress(nameReg, emailReg, passwordReg)} />
 				</SafeAreaView>
 			)}
-		</>
+		</TouchableWithoutFeedback>
 	);
 };
 export default Login;

@@ -4,16 +4,6 @@
 		"slug": "storage",
 		"version": "1.0.0",
 		"orientation": "portrait",
-		"extra": {
-			"firebase": {
-				"apiKey": "AIzaSyCnD7dRL7ajaJ9G2cSNfCEL4VUjCwmjRP8",
-				"authDomain": "storage-3e20f.firebaseapp.com",
-				"projectId": "storage-3e20f",
-				"storageBucket": "storage-3e20f.appspot.com",
-				"messagingSenderId": "234434422442",
-				"appId": "1:234434422442:web:20918a3a866d4dbafa12d3"
-			}
-		},
 		"icon": "./assets/icon.png",
 		"userInterfaceStyle": "light",
 		"splash": {
