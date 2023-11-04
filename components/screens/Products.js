@@ -1,6 +1,17 @@
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import {
+	ActivityIndicator,
+	FlatList,
+	Keyboard,
+	Modal,
+	StyleSheet,
+	Text,
+	TextInput,
+	TouchableOpacity,
+	TouchableWithoutFeedback,
+	View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
 import { products } from '../../config/firebaseConfig';
@@ -74,31 +85,43 @@ const Products = ({ route }) => {
 	return (
 		<SafeAreaView style={styles.container}>
 			<Modal visible={isModalOpen} animationType="slide">
-				<View style={styles.modalContainer}>
-					<SafeAreaView style={styles.modalContent}>
-						<Text style={styles.text}>Product name:</Text>
-						<TextInput style={styles.input} placeholder="Cup" onChangeText={(val) => setName(val)} />
-						<Text style={styles.text}>Product amount:</Text>
-						<TextInput
-							style={styles.input}
-							keyboardType="numeric"
-							placeholder="77"
-							onChangeText={(val) => setAmount(val)}
-						/>
-						<Text style={styles.text}>Product storage location:</Text>
-						<TextInput style={styles.input} placeholder="New York" onChangeText={(val) => setStorageLocation(val)} />
-						<Text style={styles.text}>Product storage address:</Text>
-						<TextInput
-							style={styles.input}
-							placeholder="Pluto way, 23f"
-							onChangeText={(val) => setStorageAddress(val)}
-						/>
-						<View style={styles.buttons}>
-							<CustomButton title="Add" onPress={() => addProduct(name, amount, storageLocation, storageAddress)} />
-							<CustomButtonOutline title="Close" onPress={() => setIsModalOpen(false)} />
-						</View>
-					</SafeAreaView>
-				</View>
+				<TouchableWithoutFeedback
+					onPress={() => {
+						Keyboard.dismiss();
+					}}>
+					<View style={styles.modalContainer}>
+						<SafeAreaView style={styles.modalContent}>
+							<Text style={styles.text}>Product name:</Text>
+							<TextInput style={styles.input} placeholder="Cup" onChangeText={(val) => setName(val)} />
+							<Text style={styles.text}>Product amount:</Text>
+							<TextInput
+								style={styles.input}
+								keyboardType="numeric"
+								placeholder="77"
+								onChangeText={(val) => setAmount(val)}
+							/>
+							<Text style={styles.text}>Product storage location:</Text>
+							<TextInput
+								style={styles.input}
+								placeholder="New York"
+								onChangeText={(val) => setStorageLocation(val)}
+							/>
+							<Text style={styles.text}>Product storage address:</Text>
+							<TextInput
+								style={styles.input}
+								placeholder="Pluto way, 23f"
+								onChangeText={(val) => setStorageAddress(val)}
+							/>
+							<View style={styles.buttons}>
+								<CustomButton
+									title="Add"
+									onPress={() => addProduct(name, amount, storageLocation, storageAddress)}
+								/>
+								<CustomButtonOutline title="Close" onPress={() => setIsModalOpen(false)} />
+							</View>
+						</SafeAreaView>
+					</View>
+				</TouchableWithoutFeedback>
 			</Modal>
 			<CustomButton title="Add product" onPress={() => setIsModalOpen(true)} />
 			<View style={styles.divider}></View>
@@ -138,6 +161,8 @@ const styles = StyleSheet.create({
 		alignItems: 'left',
 		justifyContent: 'center',
 		padding: 10,
+		width: '100%',
+		justifyContent: 'space-between',
 		width: '100%',
 	},
 	buttons: {
