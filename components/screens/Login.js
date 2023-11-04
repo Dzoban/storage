@@ -53,7 +53,6 @@ const Login = ({ navigation, route }) => {
 			await users
 				.create(data)
 				.then((res) => {
-					console.log('Created');
 					setNameReg('');
 					setEmailReg('');
 					setPasswordReg('');

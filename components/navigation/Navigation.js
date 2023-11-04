@@ -29,7 +29,6 @@ function StackGroupUsers() {
 }
 
 function TabGroup({ userId, setIsLoggedIn, isAdmin }) {
-	console.log('isAdmin from stack: ', isAdmin);
 	if (isAdmin) {
 		return (
 			<Tab.Navigator

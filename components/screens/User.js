@@ -15,7 +15,6 @@ const User = ({ route }) => {
 		await users
 			.delete(id)
 			.then((res) => {
-				console.log(res);
 				navigate.goBack();
 				setIsLoading(true);
 			})
