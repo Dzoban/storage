@@ -96,13 +96,7 @@ const Login = ({ navigation, route }) => {
 		}
 	};
 
-	const removeData = async () => {
-		try {
-			await AsyncStorage.removeItem('user');
-		} catch (error) {
-			console.error('Помилка видалення даних: ', error);
-		}
-	};
+	
 
 	useEffect(() => {
 		const fetchData = async () => {

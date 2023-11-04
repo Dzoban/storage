@@ -22,42 +22,6 @@ const User = ({ route }) => {
 			.catch((err) => console.log(err));
 	};
 
-	const openImagePicker = async () => {
-		const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-		if (status !== 'granted') {
-			console.log('Дозвіл на доступ до медіатеки не надано');
-			return;
-		}
-
-		const result = await ImagePicker.launchImageLibraryAsync({
-			mediaTypes: ImagePicker.MediaTypeOptions.Images,
-			allowsEditing: true,
-			quality: 1,
-		});
-
-		if (!result.cancelled) {
-			if (result.uri) {
-				const localUri = result.uri;
-
-				// Resize and compress the image using ImageManipulator
-				const manipulatedImage = await ImageManipulator.manipulateAsync(localUri, [{ resize: { width: 600 } }], {
-					compress: 0.8, // You can adjust the compression quality as needed
-					format: ImageManipulator.SaveFormat.JPEG,
-					base64: true, // Convert the image to base64
-				});
-
-				if (manipulatedImage.base64) {
-					setImage(`data:image/jpeg;base64,${manipulatedImage.base64}`);
-				} else {
-					console.log('Не вдалося отримати base64 обраного зображення.');
-				}
-			} else {
-				console.log('Не вдалося отримати URI обраного зображення.');
-			}
-		}
-	};
-
 	return (
 		<SafeAreaView>
 			<DisplayBase64Image base64Image={item?.picture} />
