@@ -18,24 +18,36 @@ const Products = ({ route }) => {
 	const navigation = useNavigation();
 
 	const addProduct = async (name, amount, location, address) => {
-		setIsLoading(true);
 		const data = {
 			name: name.trim(),
 			amount: parseInt(amount),
-			storageLocation: location,
-			storageAddress: address,
+			storageLocation: location.trim(),
+			storageAddress: address.trim(),
+			picture: '',
 		};
-		await products
-			.create(data)
-			.then((res) => {
-				setIsLoading(false);
-				Toast.show({
-					type: 'success',
-					text1: 'Success',
-					text2: 'Product successfully added!',
-				});
-			})
-			.catch((err) => console.log(err));
+		if (name.trim() === '' || amount.trim() === '' || location.trim() === '' || address.trim() === '') {
+			setIsModalOpen(false);
+			Toast.show({
+				type: 'error',
+				text1: 'Error',
+				text2: 'Please fill all inputs!',
+			});
+		} else {
+			setIsModalOpen(false);
+			setIsLoading(true);
+
+			await products
+				.create(data)
+				.then((res) => {
+					setIsLoading(false);
+					Toast.show({
+						type: 'success',
+						text1: 'Success',
+						text2: 'Product successfully added!',
+					});
+				})
+				.catch((err) => console.log(err));
+		}
 	};
 
 	useEffect(() => {
@@ -45,7 +57,6 @@ const Products = ({ route }) => {
 				.then((res) => {
 					setProductsData(res);
 					setIsLoading(false);
-                    setIsModalOpen(false);
 				})
 				.catch((err) => console.log(err));
 		};

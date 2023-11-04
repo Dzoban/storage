@@ -1,14 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
-import {
-	ActivityIndicator,
-	Button,
-	Keyboard,
-	SafeAreaView,
-	StyleSheet,
-	Text,
-	TextInput,
-	TouchableWithoutFeedback,
-} from 'react-native';
+import { ActivityIndicator, Keyboard, SafeAreaView, StyleSheet, Text, TextInput, TouchableWithoutFeedback } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { users } from '../../config/firebaseConfig';
 import { CustomButton, CustomButtonOutline } from '../ui/CustomButton';
@@ -32,6 +24,7 @@ const Login = ({ navigation, route }) => {
 			setIsLoading(false);
 			setIsLoggedIn(true);
 			setUserId(user.id);
+			saveData(email, password, user.id);
 			Toast.show({
 				type: 'success',
 				text1: 'Success',
@@ -77,6 +70,38 @@ const Login = ({ navigation, route }) => {
 		setIsAuth(true);
 	};
 
+	const saveData = async (email, password, id) => {
+		try {
+			await AsyncStorage.setItem('user', JSON.stringify({ email, password, id }));
+		} catch (error) {
+			console.error('Помилка збереження даних: ', error);
+		}
+	};
+
+	const getData = async () => {
+		try {
+			const value = await AsyncStorage.getItem('user');
+			if (value !== '{}') {
+				const user = JSON.parse(value);
+				setEmail(user.email);
+				setPassword(user.password);
+				setUserId(user.id)
+				handleLoginPress();
+				console.log('Значення: ', value);
+			}
+		} catch (error) {
+			console.error('Помилка отримання даних: ', error);
+		}
+	};
+
+	const removeData = async () => {
+		try {
+			await AsyncStorage.removeItem('user');
+		} catch (error) {
+			console.error('Помилка видалення даних: ', error);
+		}
+	};
+
 	useEffect(() => {
 		const fetchData = async () => {
 			setIsLoading(true);
@@ -86,6 +111,7 @@ const Login = ({ navigation, route }) => {
 					.then((res) => {
 						setUsersData(res);
 						setIsLoading(false);
+						getData();
 					})
 					.catch((err) => console.log(err));
 			} catch (error) {
@@ -93,6 +119,7 @@ const Login = ({ navigation, route }) => {
 			}
 		};
 		fetchData();
+		
 	}, [isAuth]);
 
 	if (isLoading) {

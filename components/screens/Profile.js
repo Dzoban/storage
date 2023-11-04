@@ -10,6 +10,7 @@ const Profile = ({ route }) => {
 	const [isLoading, setIsLoading] = useState(true);
 
 	const { userId, setIsLoggedIn } = route.params;
+	console.log('user id: ', userId);
 
 	useEffect(() => {
 		const fetchData = async (userId) => {
