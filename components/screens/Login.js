@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { users } from '../../config/firebaseConfig';
+import { CustomButton, CustomButtonOutline } from '../ui/CustomButton';
 
 const Login = ({ navigation, route }) => {
 	const [usersData, setUsersData] = useState([]);
@@ -21,13 +22,12 @@ const Login = ({ navigation, route }) => {
 	const [nameReg, setNameReg] = useState('');
 	const [emailReg, setEmailReg] = useState('');
 	const [passwordReg, setPasswordReg] = useState('');
-	
+
 	const { setIsLoggedIn, setUserId } = route.params;
 
 	const handleLoginPress = async () => {
 		setIsLoading(true);
 		const user = usersData.find((item) => item.email === email && item.password === password);
-		console.log(user);
 		if (user) {
 			setIsLoading(false);
 			setIsLoggedIn(true);
@@ -109,32 +109,34 @@ const Login = ({ navigation, route }) => {
 			}}>
 			{isAuth ? (
 				<SafeAreaView style={styles.container}>
-					<Text>Enter email:</Text>
+					<Text style={styles.text}>Enter email:</Text>
 					<TextInput style={styles.input} placeholder="example@email.com" onChangeText={(val) => setEmail(val)} />
-					<Text>Enter password:</Text>
+					<Text style={styles.text}>Enter password:</Text>
 					<TextInput
 						style={styles.input}
 						placeholder="******"
 						onChangeText={(val) => setPassword(val)}
 						secureTextEntry={true}
 					/>
-					<Button title="Login" onPress={handleLoginPress} />
+					<CustomButton title="Login" onPress={handleLoginPress} />
+					<CustomButtonOutline title="Register" onPress={() => setIsAuth(false)} />
 				</SafeAreaView>
 			) : (
 				<SafeAreaView style={styles.container}>
 					<Text>Register</Text>
-					<Text>Enter name:</Text>
+					<Text style={styles.text}>Enter name:</Text>
 					<TextInput style={styles.input} placeholder="John Doe" onChangeText={(val) => setNameReg(val)} />
-					<Text>Enter email:</Text>
+					<Text style={styles.text}>Enter email:</Text>
 					<TextInput style={styles.input} placeholder="example@email.com" onChangeText={(val) => setEmailReg(val)} />
-					<Text>Enter password:</Text>
+					<Text style={styles.text}>Enter password:</Text>
 					<TextInput
 						style={styles.input}
 						placeholder="******"
 						onChangeText={(val) => setPasswordReg(val)}
 						secureTextEntry={true}
 					/>
-					<Button title="Register" onPress={() => handleRegisterPress(nameReg, emailReg, passwordReg)} />
+					<CustomButton title="Register" onPress={() => handleRegisterPress(nameReg, emailReg, passwordReg)} />
+					<CustomButtonOutline title="Login" onPress={() => setIsAuth(true)} />
 				</SafeAreaView>
 			)}
 		</TouchableWithoutFeedback>
@@ -145,16 +147,21 @@ export default Login;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		background: '#cccccc',
+		backgroundColor: '#EDEEF2',
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
 	input: {
 		borderWidth: 1,
 		borderRadius: 5,
-		borderColor: '#fff',
+		borderColor: '#6E83B4',
 		padding: 8,
 		margin: 10,
 		width: 200,
+	},
+	text: {
+		fontSize: 20,
+		fontWeight: '600',
+		textAlign: 'left',
 	},
 });

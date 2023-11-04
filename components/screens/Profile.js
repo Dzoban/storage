@@ -1,11 +1,13 @@
 import { FontAwesome } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { users } from '../../config/firebaseConfig';
+import { CustomButtonOutline } from '../ui/CustomButton';
 
 const Profile = ({ route }) => {
 	const [userData, setUserData] = useState(null);
+	const [isLoading, setIsLoading] = useState(true);
 
 	const { userId, setIsLoggedIn } = route.params;
 
@@ -13,11 +15,22 @@ const Profile = ({ route }) => {
 		const fetchData = async (userId) => {
 			await users
 				.getById(userId)
-				.then((res) => setUserData(res))
+				.then((res) => {
+					setUserData(res);
+					setIsLoading(false);
+				})
 				.catch((err) => console.log(err));
 		};
 		fetchData(userId);
 	}, [userId]);
+
+	if (isLoading) {
+		return (
+			<SafeAreaView style={styles.container}>
+				<ActivityIndicator size="large" color="#0000ff" />
+			</SafeAreaView>
+		);
+	}
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -26,7 +39,7 @@ const Profile = ({ route }) => {
 				<Text style={styles.name}>{userData?.name}</Text>
 				<Text>{userData?.email}</Text>
 				{userData?.isAdmin && <Text style={styles.admin}>Admin</Text>}
-				<Button title="Logout" onPress={() => setIsLoggedIn(false)} />
+				<CustomButtonOutline title="Logout" onPress={() => setIsLoggedIn(false)} />
 			</View>
 		</SafeAreaView>
 	);
@@ -36,7 +49,7 @@ export default Profile;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		background: '#cccccc',
+		backgroundColor: '#EDEEF2',
 		alignItems: 'center',
 	},
 	userBox: {
