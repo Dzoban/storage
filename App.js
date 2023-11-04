@@ -12,17 +12,6 @@ const App = () => {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [userId, setUserId] = useState('');
 
-	console.log('user id from app: ', userId);
-
-	const handleLogin = () => {
-		setIsLoggedIn(true);
-		Toast.show({
-			type: 'success',
-			text1: 'Success',
-			text2: 'Successfully login!',
-		});
-	};
-
 	return (
 		<>
 			<NavigationContainer>
@@ -37,6 +26,7 @@ const App = () => {
 								}}
 								initialParams={{
 									userId: userId,
+									setIsLoggedIn: setIsLoggedIn,
 								}}
 							/>
 						</>
@@ -48,8 +38,8 @@ const App = () => {
 								headerShown: false,
 							}}
 							initialParams={{
-								handleLogin: handleLogin,
 								setUserId: setUserId,
+								setIsLoggedIn: setIsLoggedIn,
 							}}
 						/>
 					)}

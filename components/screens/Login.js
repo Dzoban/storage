@@ -21,7 +21,8 @@ const Login = ({ navigation, route }) => {
 	const [nameReg, setNameReg] = useState('');
 	const [emailReg, setEmailReg] = useState('');
 	const [passwordReg, setPasswordReg] = useState('');
-	const { handleLogin, setUserId } = route.params;
+	
+	const { setIsLoggedIn, setUserId } = route.params;
 
 	const handleLoginPress = async () => {
 		setIsLoading(true);
@@ -29,9 +30,13 @@ const Login = ({ navigation, route }) => {
 		console.log(user);
 		if (user) {
 			setIsLoading(false);
-			handleLogin();
+			setIsLoggedIn(true);
 			setUserId(user.id);
-			console.log('login');
+			Toast.show({
+				type: 'success',
+				text1: 'Success',
+				text2: 'Successfully login!',
+			});
 		} else {
 			setIsAuth(false);
 			Toast.show({
@@ -62,7 +67,7 @@ const Login = ({ navigation, route }) => {
 					Toast.show({
 						type: 'success',
 						text1: 'Success',
-						text2: 'Successfully registered!',
+						text2: 'Successfully registered, please login!',
 					});
 				})
 				.catch((err) => console.log(err));

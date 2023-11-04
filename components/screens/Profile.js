@@ -1,12 +1,13 @@
 import { FontAwesome } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { users } from '../../config/firebaseConfig';
 
 const Profile = ({ route }) => {
 	const [userData, setUserData] = useState(null);
-	const { userId } = route.params;
+
+	const { userId, setIsLoggedIn } = route.params;
 
 	useEffect(() => {
 		const fetchData = async (userId) => {
@@ -21,9 +22,11 @@ const Profile = ({ route }) => {
 	return (
 		<SafeAreaView style={styles.container}>
 			<View style={styles.userBox}>
-				<FontAwesome name="user-circle-o" size={60} color="black" /> 
+				<FontAwesome name="user-circle-o" size={60} color="black" />
 				<Text style={styles.name}>{userData?.name}</Text>
-				<Text style={styles.email}>{userData?.email}</Text>
+				<Text>{userData?.email}</Text>
+				{userData?.isAdmin && <Text style={styles.admin}>Admin</Text>}
+				<Button title="Logout" onPress={() => setIsLoggedIn(false)} />
 			</View>
 		</SafeAreaView>
 	);
@@ -46,5 +49,11 @@ const styles = StyleSheet.create({
 		fontSize: 30,
 		fontWeight: '700',
 	},
-	email: {},
+	admin: {
+		padding: 5,
+		borderWidth: 1,
+		borderStyle: 'dashed',
+		borderColor: '#bbb',
+		borderRadius: 5,
+	},
 });

@@ -1,17 +1,17 @@
+import { FontAwesome5 } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Profile from '../screens/Profile';
-import { FontAwesome5 } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
 
-function TabGroup({ userId }) {
+function TabGroup({ userId, setIsLoggedIn }) {
 	return (
 		<Tab.Navigator
 			screenOptions={({ route, navigation }) => ({
 				tabBarIcon: ({ color, focused, size }) => {
 					let iconName;
 					if (route.name === 'Profile') {
-						iconName = 'user';
+						iconName = focused ? 'user-alt' : 'user';
 					}
 					return <FontAwesome5 name={iconName} size={size} color={color} />;
 				},
@@ -21,6 +21,7 @@ function TabGroup({ userId }) {
 				component={Profile}
 				initialParams={{
 					userId: userId,
+					setIsLoggedIn: setIsLoggedIn,
 				}}
 			/>
 		</Tab.Navigator>
@@ -28,6 +29,6 @@ function TabGroup({ userId }) {
 }
 
 const Navigation = ({ route }) => {
-	return <TabGroup userId={route.params.userId} />;
+	return <TabGroup userId={route.params.userId} setIsLoggedIn={route.params.setIsLoggedIn} />;
 };
 export default Navigation;
