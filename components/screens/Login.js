@@ -18,56 +18,74 @@ const Login = ({ navigation, route }) => {
 	const { setIsLoggedIn, setUserId, setIsAdmin } = route.params;
 
 	const handleLoginPress = async () => {
-		setIsLoading(true);
-		const user = usersData.find((item) => item.email === email && item.password === password);
-		if (user) {
-			setIsLoading(false);
-			setIsLoggedIn(true);
-			setUserId(user.id);
-			saveData(email, password, user.id, user.isAdmin);
-			setIsAdmin(user.isAdmin);
-			Toast.show({
-				type: 'success',
-				text1: 'Success',
-				text2: 'Successfully login!',
-			});
+		const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+		if (emailPattern.test(email.trim()) && password.trim().length < 6) {
+			setIsLoading(true);
+			const user = usersData.find((item) => item.email === email && item.password === password);
+			if (user) {
+				setIsLoading(false);
+				setIsLoggedIn(true);
+				setUserId(user.id);
+				saveData(email, password, user.id, user.isAdmin);
+				setIsAdmin(user.isAdmin);
+				Toast.show({
+					type: 'success',
+					text1: 'Success',
+					text2: 'Successfully login!',
+				});
+			} else {
+				setIsAuth(false);
+				Toast.show({
+					type: 'info',
+					text1: 'Info',
+					text2: 'Please register!',
+				});
+			}
 		} else {
-			setIsAuth(false);
 			Toast.show({
-				type: 'info',
-				text1: 'Info',
-				text2: 'Please register!',
+				type: 'error',
+				text1: 'Error',
+				text2: 'Invalid email or password!',
 			});
 		}
 	};
 
 	const handleRegisterPress = async (name, email, password) => {
-		setIsLoading(true);
 		const data = {
 			name: name.trim(),
 			email: email.trim(),
 			password: password.trim(),
 			isAdmin: false,
 		};
-		try {
-			await users
-				.create(data)
-				.then((res) => {
-					setNameReg('');
-					setEmailReg('');
-					setPasswordReg('');
-					setIsLoading(false);
-					Toast.show({
-						type: 'success',
-						text1: 'Success',
-						text2: 'Successfully registered, please login!',
-					});
-				})
-				.catch((err) => console.log(err));
-		} catch (error) {
-			console.error('Error fetching data:', error);
+		const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+		if (emailPattern.test(email.trim()) && password.trim().length > 6) {
+			setIsLoading(true);
+			try {
+				await users
+					.create(data)
+					.then((res) => {
+						setNameReg('');
+						setEmailReg('');
+						setPasswordReg('');
+						setIsLoading(false);
+						Toast.show({
+							type: 'success',
+							text1: 'Success',
+							text2: 'Successfully registered, please login!',
+						});
+					})
+					.catch((err) => console.log(err));
+			} catch (error) {
+				console.error('Error fetching data:', error);
+			}
+			setIsAuth(true);
+		} else {
+			Toast.show({
+				type: 'error',
+				text1: 'Error',
+				text2: 'Invalid email or password!',
+			});
 		}
-		setIsAuth(true);
 	};
 
 	const saveData = async (email, password, id, isAdmin) => {
@@ -94,8 +112,6 @@ const Login = ({ navigation, route }) => {
 			console.error('Помилка отримання даних: ', error);
 		}
 	};
-
-	
 
 	useEffect(() => {
 		const fetchData = async () => {
