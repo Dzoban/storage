@@ -15,14 +15,15 @@ const Login = ({ navigation, route }) => {
 
 	const handleLoginPress = async () => {
 		setIsLoading(true);
-		usersData.forEach((item) => {
-			if (item.email === email && item.password === password) {
-				setIsLoading(false);
-				handleLogin();
-				console.log('login');
-			}
-		});
-		setIsAuth(false);
+		const user = usersData.find((item) => item.email === email && item.password === password);
+
+		if (user) {
+			setIsLoading(false);
+			handleLogin();
+			console.log('login');
+		} else {
+			setIsAuth(false);
+		}
 	};
 
 	const handleRegisterPress = async (name, email, password) => {
@@ -66,7 +67,7 @@ const Login = ({ navigation, route }) => {
 			}
 		};
 		fetchData();
-	}, []);
+	}, [isAuth]);
 
 	if (isLoading) {
 		return (
