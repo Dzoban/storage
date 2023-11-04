@@ -11,6 +11,7 @@ const Stack = createNativeStackNavigator();
 const App = () => {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [userId, setUserId] = useState('');
+	const [isAdmin, setIsAdmin] = useState(false);
 
 	return (
 		<>
@@ -27,6 +28,7 @@ const App = () => {
 								initialParams={{
 									userId: userId,
 									setIsLoggedIn: setIsLoggedIn,
+									isAdmin,
 								}}
 							/>
 						</>
@@ -40,6 +42,7 @@ const App = () => {
 							initialParams={{
 								setUserId: setUserId,
 								setIsLoggedIn: setIsLoggedIn,
+								setIsAdmin,
 							}}
 						/>
 					)}

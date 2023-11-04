@@ -15,7 +15,7 @@ const Login = ({ navigation, route }) => {
 	const [emailReg, setEmailReg] = useState('');
 	const [passwordReg, setPasswordReg] = useState('');
 
-	const { setIsLoggedIn, setUserId } = route.params;
+	const { setIsLoggedIn, setUserId, setIsAdmin } = route.params;
 
 	const handleLoginPress = async () => {
 		setIsLoading(true);
@@ -24,7 +24,8 @@ const Login = ({ navigation, route }) => {
 			setIsLoading(false);
 			setIsLoggedIn(true);
 			setUserId(user.id);
-			saveData(email, password, user.id);
+			saveData(email, password, user.id, user.isAdmin);
+			setIsAdmin(user.isAdmin);
 			Toast.show({
 				type: 'success',
 				text1: 'Success',
@@ -70,9 +71,9 @@ const Login = ({ navigation, route }) => {
 		setIsAuth(true);
 	};
 
-	const saveData = async (email, password, id) => {
+	const saveData = async (email, password, id, isAdmin) => {
 		try {
-			await AsyncStorage.setItem('user', JSON.stringify({ email, password, id }));
+			await AsyncStorage.setItem('user', JSON.stringify({ email, password, id, isAdmin }));
 		} catch (error) {
 			console.error('Помилка збереження даних: ', error);
 		}
@@ -85,7 +86,8 @@ const Login = ({ navigation, route }) => {
 				const user = JSON.parse(value);
 				setEmail(user.email);
 				setPassword(user.password);
-				setUserId(user.id)
+				setUserId(user.id);
+				setIsAdmin(user.isAdmin);
 				handleLoginPress();
 				console.log('Значення: ', value);
 			}
@@ -112,6 +114,7 @@ const Login = ({ navigation, route }) => {
 						setUsersData(res);
 						setIsLoading(false);
 						getData();
+						// removeData();
 					})
 					.catch((err) => console.log(err));
 			} catch (error) {
@@ -119,7 +122,6 @@ const Login = ({ navigation, route }) => {
 			}
 		};
 		fetchData();
-		
 	}, [isAuth]);
 
 	if (isLoading) {
