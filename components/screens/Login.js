@@ -19,7 +19,7 @@ const Login = ({ navigation, route }) => {
 
 	const handleLoginPress = async () => {
 		const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-		if (emailPattern.test(email.trim()) && password.trim().length < 6) {
+		if (emailPattern.test(email.trim()) && password.trim().length >= 4) {
 			setIsLoading(true);
 			const user = usersData.find((item) => item.email === email && item.password === password);
 			if (user) {
