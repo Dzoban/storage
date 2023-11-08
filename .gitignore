@@ -35,5 +35,11 @@ yarn-error.*
 *.tsbuildinfo
 
 
-#firebase config
+# firebase config
 config/firebaseConfig.js
+
+# uml
+uml/diagram.plantuml
+uml/storage.png
+
+.vs

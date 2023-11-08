@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import * as ImageManipulator from 'expo-image-manipulator';
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
-import { Keyboard, Modal, SafeAreaView, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
+import { Keyboard, Modal, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { products } from '../../config/firebaseConfig';
 import { CustomButton, CustomButtonOutline, CustomDeleteButton } from '../ui/CustomButton';
@@ -104,50 +104,57 @@ const Product = ({ route }) => {
 	return (
 		<SafeAreaView>
 			<Modal visible={isModalOpen} animationType="slide">
-				<TouchableWithoutFeedback
-					onPress={() => {
-						Keyboard.dismiss();
-					}}>
-					<View style={styles.modalContainer}>
-						<SafeAreaView style={styles.modalContent}>
-							<Text style={styles.text}>Product name:</Text>
-							<TextInput value={name} style={styles.input} placeholder="Cup" onChangeText={(val) => setName(val)} />
-							<Text style={styles.text}>Product amount:</Text>
-							<TextInput
-								value={String(amount)}
-								style={styles.input}
-								keyboardType="numeric"
-								placeholder="77"
-								onChangeText={(val) => setAmount(val)}
-							/>
-							<Text style={styles.text}>Product storage location:</Text>
-							<TextInput
-								value={storageLocation}
-								style={styles.input}
-								placeholder="New York"
-								onChangeText={(val) => setStorageLocation(val)}
-							/>
-							<Text style={styles.text}>Product storage address:</Text>
-							<TextInput
-								value={storageAddress}
-								style={styles.input}
-								placeholder="Pluto way, 23f"
-								onChangeText={(val) => setStorageAddress(val)}
-							/>
-							<View style={styles.preview}>
-								<CustomButtonOutline title="Choose Image" onPress={openImagePicker} />
-								<DisplayBase64Image base64Image={image} />
-							</View>
-							<View style={styles.buttons}>
-								<CustomButton
-									title="Edit"
-									onPress={() => editProduct(item.id, name, amount, storageLocation, storageAddress, image)}
+				<ScrollView>
+					<TouchableWithoutFeedback
+						onPress={() => {
+							Keyboard.dismiss();
+						}}>
+						<View style={styles.modalContainer}>
+							<SafeAreaView style={styles.modalContent}>
+								<Text style={styles.text}>Product name:</Text>
+								<TextInput
+									value={name}
+									style={styles.input}
+									placeholder="Cup"
+									onChangeText={(val) => setName(val)}
 								/>
-								<CustomButtonOutline title="Close" onPress={() => setIsModalOpen(false)} />
-							</View>
-						</SafeAreaView>
-					</View>
-				</TouchableWithoutFeedback>
+								<Text style={styles.text}>Product amount:</Text>
+								<TextInput
+									value={String(amount)}
+									style={styles.input}
+									keyboardType="numeric"
+									placeholder="77"
+									onChangeText={(val) => setAmount(val)}
+								/>
+								<Text style={styles.text}>Product storage location:</Text>
+								<TextInput
+									value={storageLocation}
+									style={styles.input}
+									placeholder="New York"
+									onChangeText={(val) => setStorageLocation(val)}
+								/>
+								<Text style={styles.text}>Product storage address:</Text>
+								<TextInput
+									value={storageAddress}
+									style={styles.input}
+									placeholder="Pluto way, 23f"
+									onChangeText={(val) => setStorageAddress(val)}
+								/>
+								<View style={styles.preview}>
+									<CustomButtonOutline title="Choose Image" onPress={openImagePicker} />
+									<DisplayBase64Image base64Image={image} />
+								</View>
+								<View style={styles.buttons}>
+									<CustomButton
+										title="Edit"
+										onPress={() => editProduct(item.id, name, amount, storageLocation, storageAddress, image)}
+									/>
+									<CustomButtonOutline title="Close" onPress={() => setIsModalOpen(false)} />
+								</View>
+							</SafeAreaView>
+						</View>
+					</TouchableWithoutFeedback>
+				</ScrollView>
 			</Modal>
 			<DisplayBase64Image base64Image={item?.picture} />
 			<View style={styles.productInfo}>
