@@ -40,6 +40,8 @@ config/firebaseConfig.js
 
 # uml
 uml/diagram.plantuml
+uml/diagram1.plantuml
 uml/storage.png
+uml/system.png
 
 .vs
